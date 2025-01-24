@@ -6,6 +6,7 @@ const corsOptions = require('./config/cors');
 const { connectToDatabase } = require('./db');
 const testRoutes = require('./test_routes');
 const routes = require('./routes');
+const { StorageClassAnalysisSchemaVersion } = require('@aws-sdk/client-s3');
 
 const app = express();
 

@@ -6,8 +6,8 @@ const { createUserSam, getAllUsersSam, UpdateUserSam, DelUserSam }
 const router = express.Router();
 
 // Define routes
-router.post('/users', createUserSam); // Create a new user
-router.get('/users', getAllUsersSam); // Get all users
+router.post('/users', createUserSam);
+router.get('/users', getAllUsersSam);
 router.put('/users/:uid', UpdateUserSam); 
 router.delete('/users/:uid', DelUserSam); 
 
