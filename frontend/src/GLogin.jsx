@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import Cookies from 'js-cookie';
 
-const Login = () => {
+const GLogin = () => {
   const handleLoginSuccess = (response) => {
     const token = response.credential; // the token returned after successful login
     Cookies.set('access_token', token, { expires: 7 }); // save token in a cookie
@@ -14,16 +14,25 @@ const Login = () => {
   };
 
   return (
-    <GoogleOAuthProvider clientId="541322469822-jrghpm6vbtm1sccu71ksurp0qc9l0bdk.apps.googleusercontent.com">
-      <GoogleLogin
-        onSuccess={handleLoginSuccess}
-        onError={handleLoginFailure}
-      />
-    </GoogleOAuthProvider>
+    <div style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100vh",
+      width: "100vw",
+    }}>
+      <GoogleOAuthProvider clientId="541322469822-jrghpm6vbtm1sccu71ksurp0qc9l0bdk.apps.googleusercontent.com">
+        <GoogleLogin
+          onSuccess={handleLoginSuccess}
+          onError={handleLoginFailure}
+        />
+      </GoogleOAuthProvider>
+    </div>
+
   );
 };
 
-export default Login;
+export default GLogin;
 
 
 /*
@@ -106,9 +115,5 @@ export default function Login() {
     </div>
   );
 }
-
-
-
-
   */
 
