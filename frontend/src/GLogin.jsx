@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { GoogleIcon, FacebookIcon } from './components/CustomIcons';
+import Button from '@mui/material/Button';
 import Cookies from 'js-cookie';
 
 const GLogin = () => {
@@ -11,6 +13,7 @@ const GLogin = () => {
 
   const handleLoginFailure = (error) => {
     console.error('Login failed:', error);
+    alert('Google Login Failed');
   };
 
   return (
@@ -25,6 +28,17 @@ const GLogin = () => {
         <GoogleLogin
           onSuccess={handleLoginSuccess}
           onError={handleLoginFailure}
+          render={(renderProps) => (
+            <Button
+              fullWidth
+              variant="outlined"
+              onClick={renderProps.onClick} // Use GoogleLogin's onClick handler
+              disabled={renderProps.disabled} // Disable button when needed
+              startIcon={<GoogleIcon />}
+            >
+              Sign up with Google
+            </Button>
+          )}
         />
       </GoogleOAuthProvider>
     </div>

@@ -8,6 +8,12 @@
 # testing
 /coverage
 
+# idea
+/.idea
+
+# Deploy
+/.serverless
+
 # production
 /build
 
