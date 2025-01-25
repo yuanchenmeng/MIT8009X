@@ -44,6 +44,7 @@ function Test() {
         <h1>Data from API</h1>
         <p>{data ? JSON.stringify(data, null, 2) : 'No data available'}</p>
       </header>
+
     </div>
   );
 }

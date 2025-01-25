@@ -15,6 +15,7 @@ import { styled } from '@mui/material/styles';
 //import AppTheme from './theme/AppTheme';
 //import ColorModeSelect from './theme/ColorModeSelect';
 import { GoogleIcon, FacebookIcon } from './components/CustomIcons';
+import {useNavigate} from "react-router-dom";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -65,6 +66,12 @@ export default function SignUp(props) {
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [nameError, setNameError] = React.useState(false);
   const [nameErrorMessage, setNameErrorMessage] = React.useState('');
+
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/gin");
+  };
 
   const validateInputs = () => {
     const email = document.getElementById('email');
@@ -198,7 +205,7 @@ export default function SignUp(props) {
             <Button
               fullWidth
               variant="outlined"
-              onClick={() => alert('Sign up with Google')}
+              onClick={handleClick}
               startIcon={<GoogleIcon />}
             >
               Sign up with Google
