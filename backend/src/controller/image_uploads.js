@@ -37,6 +37,10 @@ const upload = multer({
 // File upload controller function
 const uploadImage = (req, res) => {
     // If no file is uploaded
+    res.set('Access-Control-Allow-Origin', '*'); // Allow all origins (CORS)
+    res.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE, HEAD'); // Allowed HTTP methods
+    res.set('Content-Type', 'application/json'); // Set response content type to JSON
+    
     if (!req.file) {
         return res.status(400).json({ error: 'No file uploaded!' });
     }

@@ -3,6 +3,9 @@ const { connectToDatabase } = require('../db');
 // Create a user function
 const createUser = async (req, res) => {
   const { email, name, password, type } = req.body;
+  res.set('Access-Control-Allow-Origin', '*'); // Allow all origins (CORS)
+  res.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE, HEAD'); // Allowed HTTP methods
+  res.set('Content-Type', 'application/json'); // Set response content type to JSON
 
   // Validate inputs (simple validation)
   if (!email || !name || !password || !type) {

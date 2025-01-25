@@ -3,6 +3,9 @@ const { connectToDatabase } = require('../db');
 // Create Project function
 const createProject = async (req, res) => {
   const { keywords, text, tags, cid, uid } = req.body;
+  res.set('Access-Control-Allow-Origin', '*'); // Allow all origins (CORS)
+  res.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS'); // Allowed HTTP methods
+  res.set('Content-Type', 'application/json'); // Set response content type to JSON
 
   if (!uid) {
     return res.status(400).json({ message: 'uid is required' });
@@ -68,6 +71,9 @@ const ReadPById = async (req, res) => {
 const updateProject = async (req, res) => {
   const { pid } = req.params;
   const { keywords, text, tags, cid, uid } = req.body;
+  res.set('Access-Control-Allow-Origin', '*'); // Allow all origins (CORS)
+  res.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE, HEAD'); // Allowed HTTP methods
+  res.set('Content-Type', 'application/json'); // Set response content type to JSON
 
   const query = `
     UPDATE projects
@@ -93,6 +99,9 @@ const updateProject = async (req, res) => {
 // Delete Project by ID function
 const delProject = async (req, res) => {
   const { pid } = req.params;
+  res.set('Access-Control-Allow-Origin', '*'); // Allow all origins (CORS)
+  res.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE, HEAD'); // Allowed HTTP methods
+  res.set('Content-Type', 'application/json'); // Set response content type to JSON
 
   const query = `DELETE FROM projects WHERE pid = ?`;
 

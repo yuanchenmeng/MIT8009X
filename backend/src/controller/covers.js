@@ -43,6 +43,13 @@ const getContentById = async (req, res) => {
 const createContent = async (req, res) => {
   const { url } = req.body;
 
+  // Add headers to the response for all cases
+  res.set('Access-Control-Allow-Origin', '*'); // Allow all origins (CORS)
+  res.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS'); // Allowed HTTP methods
+  res.set('Content-Type', 'application/json'); // Set response content type to JSON
+  //res.set('Access-Control-Allow-Credentials', 'true');
+  //console.log('Headers added to response:', res.getHeaders());
+
   if (!url) {
     return res.status(400).json({ message: 'URL is required' });
   }
