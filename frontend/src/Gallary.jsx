@@ -15,7 +15,7 @@ function Gallery() {
     try {
       const response = await axios({
         method: "GET",
-        url: `https://y3g1gd4u24.execute-api.us-east-1.amazonaws.com/api/cover/${cid}`,
+        url: `https://jd4i7vga437hv4bzrjm6rqanui0vzbir.lambda-url.us-east-1.on.aws/api/cover/${cid}`,
       });
       //console.log("URL RES", response.data)
       return response.data["content"]["url"]
@@ -34,7 +34,7 @@ function Gallery() {
         // Make a GET request to the API
         const response = await axios({
           method: "GET",
-          url: "https://y3g1gd4u24.execute-api.us-east-1.amazonaws.com/api/projects",
+          url: "https://jd4i7vga437hv4bzrjm6rqanui0vzbir.lambda-url.us-east-1.on.aws/api/projects",
         });
         console.log(response.data)
         setData(response.data["projects"]); // Set the response data to state

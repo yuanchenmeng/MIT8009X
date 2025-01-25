@@ -11,7 +11,7 @@ export default function ProjectDetail() {
     const fetchProject = async () => {
       try {
         // Simulating an API call to fetch project details by ID
-        const response = await fetch(`https://y3g1gd4u24.execute-api.us-east-1.amazonaws.com/api/projects/${pid}`);
+        const response = await fetch(`https://jd4i7vga437hv4bzrjm6rqanui0vzbir.lambda-url.us-east-1.on.aws/api/projects/${pid}`);
         const data = await response.json();
         setProject(data["project"]);
         console.log("Project data", data["project"]);

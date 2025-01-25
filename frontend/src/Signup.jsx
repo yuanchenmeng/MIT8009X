@@ -16,6 +16,7 @@ import { styled } from '@mui/material/styles';
 //import ColorModeSelect from './theme/ColorModeSelect';
 import { GoogleIcon, FacebookIcon } from './components/CustomIcons';
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -80,32 +81,38 @@ export default function SignUp(props) {
 
     let isValid = true;
 
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true);
-      setEmailErrorMessage('Please enter a valid email address.');
-      isValid = false;
-    } else {
-      setEmailError(false);
-      setEmailErrorMessage('');
-    }
-
-    if (!password.value || password.value.length < 6) {
-      setPasswordError(true);
-      setPasswordErrorMessage('Password must be at least 6 characters long.');
-      isValid = false;
-    } else {
-      setPasswordError(false);
-      setPasswordErrorMessage('');
-    }
-
-    if (!name.value || name.value.length < 1) {
-      setNameError(true);
-      setNameErrorMessage('Name is required.');
-      isValid = false;
-    } else {
-      setNameError(false);
-      setNameErrorMessage('');
-    }
+    //if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
+    //  setEmailError(true);
+    //  setEmailErrorMessage('Please enter a valid email address.');
+    //  isValid = false;
+    //} else {
+    //  setEmailError(false);
+    //  setEmailErrorMessage('');
+    //}
+//
+    //if (!password.value || password.value.length < 6) {
+    //  setPasswordError(true);
+    //  setPasswordErrorMessage('Password must be at least 6 characters long.');
+    //  isValid = false;
+    //} else {
+    //  setPasswordError(false);
+    //  setPasswordErrorMessage('');
+    //}
+//
+    //if (!name.value || name.value.length < 1) {
+    //  setNameError(true);
+    //  setNameErrorMessage('Name is required.');
+    //  isValid = false;
+    //} else {
+    //  setNameError(false);
+    //  setNameErrorMessage('');
+    //}
+    setEmailError(false);
+    setEmailErrorMessage('');
+    setNameError(false);
+    setNameErrorMessage('');
+    setPasswordError(false);
+    setPasswordErrorMessage('');
 
     return isValid;
   };
@@ -116,12 +123,50 @@ export default function SignUp(props) {
       return;
     }
     const data = new FormData(event.currentTarget);
-    console.log({
-      name: data.get('name'),
-      lastName: data.get('lastName'),
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const emailValue = data.get('email')
+    const nameValue = data.get('name')
+    const pwdValue = data.get('password')
+    console.log({emailValue, nameValue, pwdValue});
+    localStorage.setItem('signup_email', emailValue);
+    localStorage.setItem('signup_pwd', pwdValue);
+    localStorage.setItem('signup_name', nameValue);
+    navigate("/tsn");
+
+    /*
+    try {
+      const response = await axios({
+        method: "GET",
+        url: `https://jd4i7vga437hv4bzrjm6rqanui0vzbir.lambda-url.us-east-1.on.aws/api/user/fe/${emailValue}`,
+      });
+      if (response.data?.user?.length > 0) {
+        console.log("User already exists!");
+        return; // Stop further execution if a duplicate user is found
+      }
+    } catch (error) {
+      console.error('Failed Auth when fetching email')
+      return;
+    }
+    console.log("P2 start creating")
+
+
+    try{
+      const response = await axios({
+        method: "POST",
+        url: `https://jd4i7vga437hv4bzrjm6rqanui0vzbir.lambda-url.us-east-1.on.aws/api/user/`,
+        data: {
+          email: emailValue,
+          name: nameValue,
+          password: pwdValue,
+          type: typeValue
+        }
+      });
+      console.log("User created successfully!", response.data);
+    }
+    catch (error) {
+      console.error('Failed Creating')
+    }
+
+     */
   };
 
   return (

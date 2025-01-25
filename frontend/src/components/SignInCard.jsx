@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import { GoogleIcon, FacebookIcon } from './CustomIcons';
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -55,42 +56,70 @@ export default function SignInCard() {
     setOpen(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     if (emailError || passwordError) {
+      console.log("Val Error")
       event.preventDefault();
       return;
-    }
+   }
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get('email'),
       password: data.get('password'),
     });
+    localStorage.setItem('login_email', data.get('email'));
+    localStorage.setItem('login_pwd', data.get('password'));
+    navigate("/tlp");
+
+    /*
+    const emailValue = data.get('email')
+    const pwd = data.get('password')
+    console.log("Before check", emailValue)
+
+    try {
+      const response = await axios({
+        method: "GET",
+        url: `https://jd4i7vga437hv4bzrjm6rqanui0vzbir.lambda-url.us-east-1.on.aws/api/user/fe/${emailValue}`,
+      });
+      const pwdExp = response.data['user']['password']
+      console.log("Pwd records ", pwd, pwdExp)
+      if (pwdExp === pwd){
+        localStorage.setItem('user_id', response.data['user']['uid']);
+        console.log("Login successful!");
+      }else {
+        console.log("Invalid password");
+      }
+    } catch (error) {
+      console.error('Failed Auth when fetching email')
+    }*/
   };
 
-  const validateInputs = () => {
-    const email = document.getElementById('email');
-    const password = document.getElementById('password');
-
+  const validateInputs = async () => {
+    //const email = document.getElementById('email');
+    //const password = document.getElementById('password');
     let isValid = true;
 
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true);
-      setEmailErrorMessage('Please enter a valid email address.');
-      isValid = false;
-    } else {
-      setEmailError(false);
-      setEmailErrorMessage('');
-    }
-
-    if (!password.value || password.value.length < 6) {
-      setPasswordError(true);
-      setPasswordErrorMessage('Password must be at least 6 characters long.');
-      isValid = false;
-    } else {
-      setPasswordError(false);
-      setPasswordErrorMessage('');
-    }
-
+    //if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
+    //  setEmailError(true);
+    //  setEmailErrorMessage('Please enter a valid email address.');
+    //  isValid = false;
+    //} else {
+    //  setEmailError(false);
+    //  setEmailErrorMessage('');
+    //}
+//
+    //if (!password.value || password.value.length < 6) {
+    //  setPasswordError(true);
+    //  setPasswordErrorMessage('Password must be at least 6 characters long.');
+    //  isValid = false;
+    //} else {
+    //  setPasswordError(false);
+    //  setPasswordErrorMessage('');
+    //}
+    setEmailError(false);
+    setEmailErrorMessage('');
+    setPasswordError(false);
+    setPasswordErrorMessage('');
     return isValid;
   };
 

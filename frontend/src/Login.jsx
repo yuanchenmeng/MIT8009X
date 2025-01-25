@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack';
 //import ColorModeSelect from './theme/ColorModeSelect';
 import SignInCard from './components/SignInCard';
 
-export default function SignInSide(props ) {
+export default function SignInSide(props) {
   return (
     <div>
       <CssBaseline enableColorScheme />

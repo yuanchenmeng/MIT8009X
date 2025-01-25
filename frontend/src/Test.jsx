@@ -16,7 +16,7 @@ function Test() {
         // Make a GET request to the API
         const response = await axios({
           method: "GET", 
-          url: "https://y3g1gd4u24.execute-api.us-east-1.amazonaws.com/ptest", 
+          url: "https://jd4i7vga437hv4bzrjm6rqanui0vzbir.lambda-url.us-east-1.on.aws/api/user/fe/a",
         });
         console.log(response.data)
         setData(response.data); // Set the response data to state
