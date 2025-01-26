@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, {useState, useEffect} from "react";
+import {useParams, useNavigate} from "react-router-dom";
 import {
-  TextField, Button, Grid, Typography, Container, Box, RadioGroup,  FormControlLabel, Radio,
+  TextField, Button, Grid, Typography, Container, Box, RadioGroup, FormControlLabel, Radio,
   Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
 } from "@mui/material";
 import axios from "axios";
@@ -31,8 +31,8 @@ const CreateDataProjectForm = () => {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const {name, value} = e.target;
+    setFormData({...formData, [name]: value});
   };
 
   const handleClose = () => {
@@ -51,7 +51,7 @@ const CreateDataProjectForm = () => {
   };
 
   const validateResources = (resources) => {
-    if (!resources){
+    if (!resources) {
       return true;
     }
     console.log(resources);
@@ -110,7 +110,7 @@ const CreateDataProjectForm = () => {
 
   const uploadCover = async (url) => {
     try {
-      const response = await axios.post("https://jd4i7vga437hv4bzrjm6rqanui0vzbir.lambda-url.us-east-1.on.aws/api/cover", { url });
+      const response = await axios.post("https://jd4i7vga437hv4bzrjm6rqanui0vzbir.lambda-url.us-east-1.on.aws/api/cover", {url});
       return response.data.cid; // Assuming the API returns cover ID (cid)
     } catch (error) {
       console.error("Error uploading cover:", error);
@@ -188,7 +188,7 @@ const CreateDataProjectForm = () => {
   return (
     <div>
       <MyHeader></MyHeader>
-      <Container style = {{marginBottom: "30px", marginTop: "30px"}} maxWidth="sm">
+      <Container style={{marginBottom: "30px", marginTop: "30px"}} maxWidth="sm">
         <Typography variant="h4" align="center" gutterBottom>
           Create A New Project
         </Typography>
@@ -234,12 +234,12 @@ const CreateDataProjectForm = () => {
               >
                 <FormControlLabel
                   value="default"
-                  control={<Radio />}
+                  control={<Radio/>}
                   label="Use Default Cover"
                 />
                 <FormControlLabel
                   value="customized"
-                  control={<Radio />}
+                  control={<Radio/>}
                   label="Upload Customized Cover"
                 />
               </RadioGroup>

@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, {useState, useEffect} from "react";
+import {useParams, useNavigate} from "react-router-dom";
 import axios from "axios";
 import {
-  TextField, Button, Grid, Typography, Container, Box, RadioGroup,  FormControlLabel, Radio,
+  TextField, Button, Grid, Typography, Container, Box, RadioGroup, FormControlLabel, Radio,
   Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
 } from "@mui/material";
 import MyHeader from "./components/ProjectHeader";
 
 const EditDataProjectForm = () => {
-  const { pid } = useParams(); // Get the project ID from the URL
+  const {pid} = useParams(); // Get the project ID from the URL
   const navigate = useNavigate(); // For navigation
 
   const [dialogOpen, setDialogOpen] = useState(false); // Control dialog visibility
@@ -28,8 +28,8 @@ const EditDataProjectForm = () => {
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const {name, value} = e.target;
+    setFormData({...formData, [name]: value});
   };
   const handleCoverChange = (event) => {
     setCoverOption(event.target.value);
@@ -74,7 +74,7 @@ const EditDataProjectForm = () => {
   }, [pid]);
 
   const validateResources = (resources) => {
-    if (!resources){
+    if (!resources) {
       return true;
     }
     console.log(resources);
@@ -132,15 +132,13 @@ const EditDataProjectForm = () => {
 
   const uploadCover = async (url) => {
     try {
-      const response = await axios.post("https://jd4i7vga437hv4bzrjm6rqanui0vzbir.lambda-url.us-east-1.on.aws/api/cover", { url });
+      const response = await axios.post("https://jd4i7vga437hv4bzrjm6rqanui0vzbir.lambda-url.us-east-1.on.aws/api/cover", {url});
       return response.data.cid; // Assuming the API returns cover ID (cid)
     } catch (error) {
       console.error("Error uploading cover:", error);
       throw new Error("Failed to upload cover.");
     }
   };
-
-
 
 
   const handleSubmit = async (e) => {
@@ -240,7 +238,7 @@ const EditDataProjectForm = () => {
   return (
     <div>
       <MyHeader></MyHeader>
-      <Container style={{ marginBottom: "30px", marginTop: "30px" }} maxWidth="sm">
+      <Container style={{marginBottom: "30px", marginTop: "30px"}} maxWidth="sm">
         <Typography variant="h4" align="center" gutterBottom>
           Edit The Project
         </Typography>
@@ -285,12 +283,12 @@ const EditDataProjectForm = () => {
               >
                 <FormControlLabel
                   value="default"
-                  control={<Radio />}
+                  control={<Radio/>}
                   label="Use Current Cover"
                 />
                 <FormControlLabel
                   value="customized"
-                  control={<Radio />}
+                  control={<Radio/>}
                   label="Upload New Cover"
                 />
               </RadioGroup>

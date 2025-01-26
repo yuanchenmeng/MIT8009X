@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Button, Box, Grid, TextField, Typography,
+import React, {useState} from "react";
+import {
+  Button, Box, Grid, TextField, Typography,
   Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle
 } from "@mui/material";
 import MyHeader from "./components/ProjectHeader";
@@ -29,7 +30,7 @@ function Home() {
       <MyHeader></MyHeader>
       <main>
 
-        <div style={{ padding: "20px", width : "60%", margin: "0 auto", marginTop: "50px", marginBottom: "30px"}}>
+        <div style={{padding: "20px", width: "60%", margin: "0 auto", marginTop: "50px", marginBottom: "30px"}}>
           <Typography variant="h3" gutterBottom>
             MIT 2.009X
           </Typography>
@@ -39,13 +40,17 @@ function Home() {
 
         </div>
 
-        <div style={{ backgroundColor: "rgb(32, 6, 116)" }}>
-          <div style={{ padding: "5px", width : "60%", margin: "0 auto" }}>
+        <div style={{backgroundColor: "rgb(32, 6, 116)"}}>
+          <div style={{padding: "5px", width: "60%", margin: "0 auto"}}>
             <Typography style={{marginTop: "20px", color: "rgb(255, 255, 255)"}} variant="body1" gutterBottom>
-              The Product Engineering Processes course covers the engineering process of product design from conception to pre-production. The course teaches the creative design process through lectures and the creation, engineering, evaluation and prototype of a novel product.
+              The Product Engineering Processes course covers the engineering process of product design from conception
+              to pre-production. The course teaches the creative design process through lectures and the creation,
+              engineering, evaluation and prototype of a novel product.
             </Typography>
             <Typography style={{marginTop: "20px", color: "rgb(255, 255, 255)"}} variant="body1" gutterBottom>
-              Students learn to identify and evaluate a problem and sketch, model, create, develop, test, and select best prototyping strategies for their product. They use project, risk management, engineering, and analysis skills to deliver a robust working product on time and on budget.
+              Students learn to identify and evaluate a problem and sketch, model, create, develop, test, and select
+              best prototyping strategies for their product. They use project, risk management, engineering, and
+              analysis skills to deliver a robust working product on time and on budget.
             </Typography>
             <Typography style={{marginTop: "20px", color: "rgb(255, 255, 255)"}} variant="body1" gutterBottom>
               Promote enterprise-involved, project-based learning in engineering education.
@@ -68,14 +73,14 @@ function Home() {
           <Grid container spacing={2} justifyContent="center">
 
             <Grid item xs={12} sm={6} md={3}>
-              <a href="/show" style={{ textDecoration: "none" }}>
+              <a href="/show" style={{textDecoration: "none"}}>
                 <Button
                   fullWidth
                   variant="contained"
                   sx={{
                     backgroundColor: "rgb(183, 46, 25)",
                     textTransform: "none",
-                    "&:hover": { backgroundColor: "rgb(150, 30, 20)" },
+                    "&:hover": {backgroundColor: "rgb(150, 30, 20)"},
                   }}
                 >
                   Project Gallery
@@ -84,14 +89,14 @@ function Home() {
             </Grid>
 
             <Grid item xs={12} sm={6} md={3}>
-              <a href="/login" style={{ textDecoration: "none" }}>
+              <a href="/login" style={{textDecoration: "none"}}>
                 <Button
                   fullWidth
                   variant="contained"
                   sx={{
                     backgroundColor: "rgb(183, 46, 25)",
                     textTransform: "none",
-                    "&:hover": { backgroundColor: "rgb(150, 30, 20)" },
+                    "&:hover": {backgroundColor: "rgb(150, 30, 20)"},
                   }}
                 >
                   Login
@@ -100,14 +105,14 @@ function Home() {
             </Grid>
 
             <Grid item xs={12} sm={6} md={3}>
-              <a href="/signup" style={{ textDecoration: "none" }}>
+              <a href="/signup" style={{textDecoration: "none"}}>
                 <Button
                   fullWidth
                   variant="contained"
                   sx={{
                     backgroundColor: "rgb(183, 46, 25)",
                     textTransform: "none",
-                    "&:hover": { backgroundColor: "rgb(150, 30, 20)" },
+                    "&:hover": {backgroundColor: "rgb(150, 30, 20)"},
                   }}
                 >
                   Sign Up
@@ -122,7 +127,7 @@ function Home() {
                 sx={{
                   backgroundColor: "rgb(183, 46, 25)",
                   textTransform: "none",
-                  "&:hover": { backgroundColor: "rgb(150, 30, 20)" },
+                  "&:hover": {backgroundColor: "rgb(150, 30, 20)"},
                 }}
                 onClick={handleLogout}
               >

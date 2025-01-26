@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { Fab } from '@mui/material';
+import React, {useEffect, useState} from "react";
+import {useParams, useNavigate} from "react-router-dom";
+import {Fab} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-import { Chip, Box, Typography, List, ListItem } from "@mui/material";
+import {Chip, Box, Typography, List, ListItem} from "@mui/material";
 import axios from "axios";
 import MyHeader from "./components/ProjectHeader";
 
 export default function ProjectDetail() {
-  const { pid } = useParams(); // Capture the dynamic :pid from the URL
+  const {pid} = useParams(); // Capture the dynamic :pid from the URL
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -21,7 +21,7 @@ export default function ProjectDetail() {
   };
 
   const colorArray = [
-    "#eaa080", "#f4aa73", "#f7cb6d", "#92e892", "#85c7ec", "#cfa2ea", "#f09bc0","#ffb7ab"
+    "#eaa080", "#f4aa73", "#f7cb6d", "#92e892", "#85c7ec", "#cfa2ea", "#f09bc0", "#ffb7ab"
   ];
 
   // Helper function to get a random color from the array
@@ -87,24 +87,26 @@ export default function ProjectDetail() {
   return (
     <div>
       <MyHeader></MyHeader>
-      <div style={{ padding: "20px" , width: "60%", margin: "auto"}}>
+      <div style={{padding: "20px", width: "60%", margin: "auto"}}>
         <Typography variant="h4" gutterBottom>
           Project Title: {project.keywords}
         </Typography>
-        <div style = {{marginBottom: "35px"}}></div>
+        <div style={{marginBottom: "35px"}}></div>
         {coverImageUrl ? (
           <img
             src={coverImageUrl}
             alt="Cover"
-            style={{ width: "80%", maxHeight: "300px", objectFit: "cover", borderRadius: "8px",
-              marginTop: "10px",marginBottom: "10px", margin: "auto", display: "block"}}
+            style={{
+              width: "80%", maxHeight: "300px", objectFit: "cover", borderRadius: "8px",
+              marginTop: "10px", marginBottom: "10px", margin: "auto", display: "block"
+            }}
           />
         ) : (
-          <Typography  variant="body2" color="textSecondary">
+          <Typography variant="body2" color="textSecondary">
             Cover image not available.
           </Typography>
         )}
-        <div style = {{marginTop: "35px"}}></div>
+        <div style={{marginTop: "35px"}}></div>
         <Typography variant="h5" paragraph>
           <strong>Team Members:</strong>
         </Typography>
@@ -149,7 +151,7 @@ export default function ProjectDetail() {
                   <img
                     src={url}
                     alt={`Resource ${index + 1}`}
-                    style={{ width: "100%", maxHeight: "300px", objectFit: "contain", marginBottom: "8px" }}
+                    style={{width: "100%", maxHeight: "300px", objectFit: "contain", marginBottom: "8px"}}
                   />
 
                 </div>
@@ -168,8 +170,8 @@ export default function ProjectDetail() {
         right: "50px",
         textAlign: "right"
       }}>
-        <Fab color="primary" aria-label="edit" size = "large" onClick={handleEditClick}>
-          <EditIcon />
+        <Fab color="primary" aria-label="edit" size="large" onClick={handleEditClick}>
+          <EditIcon/>
         </Fab>
       </div>
     </div>

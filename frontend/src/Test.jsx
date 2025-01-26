@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import axios from 'axios';
 
@@ -15,7 +15,7 @@ function Test() {
       try {
         // Make a GET request to the API
         const response = await axios({
-          method: "GET", 
+          method: "GET",
           url: "https://jd4i7vga437hv4bzrjm6rqanui0vzbir.lambda-url.us-east-1.on.aws/api/user/fe/a",
         });
         console.log(response.data)

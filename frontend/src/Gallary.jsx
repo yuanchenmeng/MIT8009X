@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import axios from 'axios';
 import MyHeader from "./components/ProjectHeader";
-import { TextField, Autocomplete, CircularProgress,Grid, Card, CardContent, CardMedia, Typography } from "@mui/material";
-import { useParams, useNavigate } from "react-router-dom";
+import {TextField, Autocomplete, CircularProgress, Grid, Card, CardContent, CardMedia, Typography} from "@mui/material";
+import {useParams, useNavigate} from "react-router-dom";
 
 function Gallery() {
   // State to store fetched data
@@ -36,7 +36,6 @@ function Gallery() {
       setError('Error fetching data');
     }
   };
-
 
 
   // UseEffect to fetch data when the component mounts
@@ -121,7 +120,7 @@ function Gallery() {
 
 
   if (loading) {
-    return <CircularProgress />;
+    return <CircularProgress/>;
   }
 
   if (error) {
@@ -131,9 +130,8 @@ function Gallery() {
   return (
     <div>
       <MyHeader></MyHeader>
-      <div style={{ height: "100%", width: "85%",  margin: "auto "}}>
-        <div style={{width: "70%", marginTop: "50px", marginBottom: "20px", display: "flex", gap: "35px", }}>
-
+      <div style={{height: "100%", width: "85%", margin: "auto "}}>
+        <div style={{width: "70%", marginTop: "50px", marginBottom: "20px", display: "flex", gap: "35px",}}>
 
           <TextField
             label="Search Projects"
@@ -150,7 +148,7 @@ function Gallery() {
             value={selectedTags}
             onChange={(e, newValue) => setSelectedTags(newValue)}
             renderInput={(params) => (
-              <TextField {...params} variant="outlined" label="Filter by Tags" />
+              <TextField {...params} variant="outlined" label="Filter by Tags"/>
             )}
             fullWidth
           />
@@ -190,7 +188,7 @@ function Gallery() {
                     }}
                     loading="lazy"
                   />
-                  <CardContent sx={{ padding: "10px" }}>
+                  <CardContent sx={{padding: "10px"}}>
                     <Typography variant="h6">{`Project ${index + 1}`}</Typography>
                     <Typography variant="body2" color="textSecondary">
                       <strong>Project Title:</strong> {project.keywords}

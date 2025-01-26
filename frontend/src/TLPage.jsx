@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const LoginPage = () => {
   const [loading, setLoading] = useState(true);
@@ -48,7 +48,6 @@ const LoginPage = () => {
   }, [navigate]);
 
 
-
   if (loading) {
     return (
       <div>
@@ -70,9 +69,11 @@ const LoginPage = () => {
 
   // Display user info if login is successful
   return (
-    <div style={{ display: "flex",  justifyContent: "center",
+    <div style={{
+      display: "flex", justifyContent: "center",
       alignItems: "center", height: '100vh',
-      textAlign: "center"}}>
+      textAlign: "center"
+    }}>
       <h1>Welcome, {userInfo.name}!</h1>
     </div>
   );

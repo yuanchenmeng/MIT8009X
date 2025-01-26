@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import Cookies from "js-cookie";
-import { jwtDecode } from 'jwt-decode';
+import {jwtDecode} from 'jwt-decode';
 
 export default function Secure() {
   const navigate = useNavigate();
@@ -22,13 +22,11 @@ export default function Secure() {
     // Decode the token to get user details
     const decodedToken = jwtDecode(token);
     console.log('Decoded Token:', decodedToken);
-  
+
     // Extract user info
-    const { name, email, picture } = decodedToken;
-    console.log('User Info:', { name, email, picture });
+    const {name, email, picture} = decodedToken;
+    console.log('User Info:', {name, email, picture});
   };
-
-
 
 
   useEffect(() => {

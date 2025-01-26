@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import axios from 'axios';
 
@@ -12,7 +12,7 @@ function Test() {
           method: "POST",
           url: "https://jd4i7vga437hv4bzrjm6rqanui0vzbir.lambda-url.us-east-1.on.aws/api/cover",
           data: {
-            url : "g"
+            url: "g"
           }
         });
         console.log(response.data)
@@ -22,7 +22,6 @@ function Test() {
     };
     fetchData(); // Call the fetch function when the component mounts
   }, []); // Empty dependency array ensures this runs only once when the component mounts
-
 
 
   return (

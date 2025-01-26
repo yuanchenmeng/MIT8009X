@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-import { GoogleIcon, FacebookIcon } from './components/CustomIcons';
+import React, {useEffect} from 'react';
+import {GoogleOAuthProvider, GoogleLogin} from '@react-oauth/google';
+import {GoogleIcon, FacebookIcon} from './components/CustomIcons';
 import Button from '@mui/material/Button';
 import Cookies from 'js-cookie';
 
 const GLogin = () => {
   const handleLoginSuccess = (response) => {
     const token = response.credential; // the token returned after successful login
-    Cookies.set('access_token', token, { expires: 7 }); // save token in a cookie
+    Cookies.set('access_token', token, {expires: 7}); // save token in a cookie
     //console.log('Logged in with Google:', token);
   };
 
@@ -34,7 +34,7 @@ const GLogin = () => {
               variant="outlined"
               onClick={renderProps.onClick} // Use GoogleLogin's onClick handler
               disabled={renderProps.disabled} // Disable button when needed
-              startIcon={<GoogleIcon />}
+              startIcon={<GoogleIcon/>}
             >
               Sign up with Google
             </Button>

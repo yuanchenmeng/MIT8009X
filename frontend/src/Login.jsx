@@ -8,7 +8,7 @@ import SignInCard from './components/SignInCard';
 export default function SignInSide(props) {
   return (
     <div>
-      <CssBaseline enableColorScheme />
+      <CssBaseline enableColorScheme/>
       <Stack
         direction="column"
         component="main"
@@ -38,24 +38,24 @@ export default function SignInSide(props) {
         ]}
       >
         <Stack
-          direction={{ xs: 'column-reverse', md: 'row' }}
+          direction={{xs: 'column-reverse', md: 'row'}}
           sx={{
             justifyContent: 'center',
-            gap: { xs: 6, sm: 12 },
+            gap: {xs: 6, sm: 12},
             p: 2,
             mx: 'auto',
           }}
         >
           <Stack
-            direction={{ xs: 'column-reverse', md: 'row' }}
+            direction={{xs: 'column-reverse', md: 'row'}}
             sx={{
               justifyContent: 'center',
-              gap: { xs: 6, sm: 12 },
-              p: { xs: 2, sm: 4 },
+              gap: {xs: 6, sm: 12},
+              p: {xs: 2, sm: 4},
               m: 'auto',
             }}
           >
-            <SignInCard />
+            <SignInCard/>
           </Stack>
         </Stack>
       </Stack>

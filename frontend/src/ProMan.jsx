@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import axios from 'axios';
 import MyHeader from "./components/ProjectHeader";
 import {Card, CardContent, CardMedia, Fab, Grid, Typography} from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import Divider from "@mui/material/Divider";
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 function Gallery() {
   // State to store fetched data
@@ -100,9 +100,9 @@ function Gallery() {
   return (
     <div>
       <MyHeader></MyHeader>
-      <div style={{ height: "100%", width: "85%",  margin: "auto "}}>
-        <div style = {{marginBottom: "15px"}} className="gallery-container3">My Projects</div>
-        <Divider ></Divider>
+      <div style={{height: "100%", width: "85%", margin: "auto "}}>
+        <div style={{marginBottom: "15px"}} className="gallery-container3">My Projects</div>
+        <Divider></Divider>
         <Grid
           container
           spacing={3}
@@ -136,7 +136,7 @@ function Gallery() {
                     }}
                     loading="lazy"
                   />
-                  <CardContent sx={{ padding: "10px" }}>
+                  <CardContent sx={{padding: "10px"}}>
                     <Typography variant="h6">{`Project ${index + 1}`}</Typography>
                     <Typography variant="body2" color="textSecondary">
                       <strong>Project Title:</strong> {project.keywords}
@@ -158,7 +158,7 @@ function Gallery() {
         marginRight: "50px",
         textAlign: "right"
       }}>
-        <Fab color="primary" aria-label="add" size = "large">
+        <Fab color="primary" aria-label="add" size="large">
           <AddIcon onClick={handleClick}/>
         </Fab>
       </div>
