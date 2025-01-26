@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
 import MyHeader from "./components/ProjectHeader";
-import { useParams, useNavigate } from "react-router-dom";
+import { Fab } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import Divider from "@mui/material/Divider";
+import { useNavigate } from 'react-router-dom';
 
 function Gallery() {
   // State to store fetched data
@@ -10,13 +13,12 @@ function Gallery() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [projectUrls, setProjectUrls] = useState({});
+  const userId = parseInt(localStorage.getItem('user_id'));
   const navigate = useNavigate();
 
-  const handleImageClick = (index) => {
-    const pid = data[index].pid
-    navigate(`/project/${pid}`);
-  }
-
+  const handleClick = () => {
+    navigate('/project/new')
+  };
 
   const findUrls = async (cid) => {
     try {
@@ -31,27 +33,37 @@ function Gallery() {
     }
   };
 
+  const fetchData = async () => {
+    try {
+      // Make a GET request to the API
+      const response = await axios({
+        method: "GET",
+        url: "https://jd4i7vga437hv4bzrjm6rqanui0vzbir.lambda-url.us-east-1.on.aws/api/projects",
+      });
+
+      // Assuming `response.data` contains an array of projects
+
+      const projects = response.data.projects; // Extract the projects from the response
+      console.log(response.data.projects, userId)
+
+      // Filter projects owned by the current user
+      const userProjects = projects.filter(project => project.uid === userId);
+      console.log(userProjects)
+
+      // Set the filtered data to state
+      setData(userProjects);
+      setLoading(false); // Set loading to false after data is fetched
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setError('Error fetching data');
+      setLoading(false);
+    }
+  };
 
 
   // UseEffect to fetch data when the component mounts
   useEffect(() => {
     // Define a function to fetch data
-    const fetchData = async () => {
-      try {
-        // Make a GET request to the API
-        const response = await axios({
-          method: "GET",
-          url: "https://jd4i7vga437hv4bzrjm6rqanui0vzbir.lambda-url.us-east-1.on.aws/api/projects",
-        });
-        console.log(response.data)
-        setData(response.data["projects"]); // Set the response data to state
-        setLoading(false); // Set loading to false after data is fetched
-      } catch (error) {
-        setError('Error fetching data');
-        setLoading(false);
-      }
-    };
-
     fetchData(); // Call the fetch function when the component mounts
   }, []); // Empty dependency array ensures this runs only once when the component mounts
 
@@ -84,8 +96,8 @@ function Gallery() {
     <div>
       <MyHeader></MyHeader>
       <div style={{ height: "100%", width: "85%",  margin: "auto "}}>
-        <div className="gallery-container1">2025</div>
-        <div className="gallery-container2">All Projects</div>
+        <div style = {{marginBottom: "15px"}} className="gallery-container3">My Projects</div>
+        <Divider ></Divider>
         <div
           style={{
             display: "grid",
@@ -96,11 +108,14 @@ function Gallery() {
         >
           {data ? (
             data.map((project, index) => (
-              <div key={index} style={{
+              <div
+                key={index}
+                style={{
                   display: "flex",
                   border: "1px solid #ccc",
                   borderRadius: "8px",
                   padding: "10px",
+
                   flexDirection: "column",
                   alignItems: "center", // Center content within the card
                   maxWidth: "400px", // Restrict the card width
@@ -108,10 +123,9 @@ function Gallery() {
                   marginBottom: "20px",
                   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
                   backgroundColor: "#fff",
-                }} onClick={() => handleImageClick(index)}
+                }}
               >
-                <h3>Project {index + 1}</h3>
-                <p><strong>Project Title:</strong> {project.keywords}</p>
+                <p><strong>Project {index + 1}:</strong> {project.keywords}</p>
                 {/* Display the image if URL is available */}
                 {projectUrls[project.cid] ? (
                   <div
@@ -121,7 +135,6 @@ function Gallery() {
                       overflow: "hidden", // Hide overflow content
                       borderRadius: "8px", // Match card border radius
                     }}
-
                   >
                     <img
                       src={projectUrls[project.cid]}
@@ -144,8 +157,15 @@ function Gallery() {
           )}
         </div>
 
-
-
+      </div>
+      <div style={{
+        marginBottom: "50px",
+        marginRight: "50px",
+        textAlign: "right"
+      }}>
+        <Fab color="primary" aria-label="add" size = "large">
+          <AddIcon onClick={handleClick}/>
+        </Fab>
       </div>
     </div>
   );

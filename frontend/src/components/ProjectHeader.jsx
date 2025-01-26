@@ -1,6 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function MyHeader() {
+  const navigate = useNavigate();
+  const userId = localStorage.getItem("user_id"); // Check if the user is logged in
+
+  const handleProjectManagementClick = () => {
+    navigate("/central"); // Redirect to '/central'
+  };
+
   return (
     <header
       style={{
@@ -19,18 +27,37 @@ export default function MyHeader() {
       <nav>
         <a
           href="/"
-          style={{margin: "0 10px", textDecoration: "none", color: "#ffffff", // Blue color for links
+          style={{
+            margin: "0 10px",
+            textDecoration: "none",
+            color: "#ffffff",
           }}
         >
           Home
         </a>
         <a
           href="/show"
-          style={{margin: "0 10px", textDecoration: "none", color: "#ffffff",
+          style={{
+            margin: "0 10px",
+            textDecoration: "none",
+            color: "#ffffff",
           }}
         >
           Projects Demos
         </a>
+        {/* Conditionally render the "Project Management" link */}
+        {userId && (
+          <a
+            href="/central"
+            style={{
+              margin: "0 10px",
+              textDecoration: "none",
+              color: "#ffffff",
+            }}
+          >
+            Project Management
+          </a>
+        )}
       </nav>
     </header>
   );

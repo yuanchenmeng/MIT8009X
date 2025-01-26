@@ -7,6 +7,9 @@ import Signup from "./Signup";
 import Login from "./Login";
 import Gallery from "./Gallary";
 import ProjectDetail from "./ProjectDetail";
+import Manage from "./ProMan";
+import ProCre from "./NewPro";
+import EditPro from "./EditPro";
 import TL from "./TLPage";
 import TS from "./TSPage";
 import "./App.css";
@@ -23,6 +26,9 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/show" element={<Gallery />} />
           <Route path="/project/:pid" element={<ProjectDetail />} />
+          <Route path="/project/edit/:pid" element={<EditPro />} />
+          <Route path="/central" element={<Manage />} />
+          <Route path="/project/new" element={<ProCre />} />
           <Route path="/secure" element={<Secure />} />
           <Route path="/tlp" element={<TL />} />
           <Route path="/tsn" element={<TS />} />
