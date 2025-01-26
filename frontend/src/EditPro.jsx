@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
-  TextField, Button, Grid, Typography, Container, Box,
+  TextField, Button, Grid, Typography, Container, Box, RadioGroup,  FormControlLabel, Radio,
   Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
 } from "@mui/material";
 import MyHeader from "./components/ProjectHeader";
@@ -13,6 +13,11 @@ const EditDataProjectForm = () => {
 
   const [dialogOpen, setDialogOpen] = useState(false); // Control dialog visibility
   const [dialogMessage, setDialogMessage] = useState(""); // Store success or failure message
+  const [customImage, setCustomImage] = useState(null);
+  const [coverOption, setCoverOption] = useState("default");
+
+  const [userId, setUserId] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const [formData, setFormData] = useState({
     keywords: "",
@@ -22,8 +27,18 @@ const EditDataProjectForm = () => {
     resources: "",
   });
 
-  const [userId, setUserId] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+  const handleCoverChange = (event) => {
+    setCoverOption(event.target.value);
+  };
+
+  const handleCustomImageChange = (event) => {
+    setCustomImage(event.target.files[0]); // Capture the first uploaded file
+  };
+
 
   // Fetch user ID from localStorage when the component loads
   useEffect(() => {
@@ -58,18 +73,111 @@ const EditDataProjectForm = () => {
     fetchProject();
   }, [pid]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  const validateResources = (resources) => {
+    if (!resources){
+      return true;
+    }
+    console.log(resources);
+    try {
+      const parsed = JSON.parse(resources); // Attempt to parse JSON
+      if (!Array.isArray(parsed)) {
+        throw new Error("Resources must be a list."); // Must be an array
+      }
+      if (!parsed.every((item) => Number.isInteger(item))) {
+        throw new Error("Resources must be a list of integers."); // Check if all elements are integers
+      }
+      return true; // Validation successful
+    } catch (error) {
+      return error.message; // Return error message for validation failure
+    }
   };
 
-  const handleSubmit = (e) => {
+  const validateCover = () => {
+    if (coverOption === "customized") {
+      if (!customImage) {
+        setDialogMessage("Please upload an image for the customized cover.");
+        setDialogOpen(true);
+        return false; // Prevent form submission
+      }
+
+      // Check if the file size exceeds 5MB
+      const maxSizeInBytes = 5 * 1024 * 1024; // 5MB in bytes
+      if (customImage.size > maxSizeInBytes) {
+        setDialogMessage("The uploaded image exceeds the maximum size of 5MB. Please upload a smaller file.");
+        setDialogOpen(true);
+        return false; // Prevent form submission
+      }
+    }
+
+    return true; // Form is valid
+  };
+
+  const uploadImage = async (imageFile) => {
+    console.log("uploading img");
+    try {
+      const formData = new FormData();
+      formData.append("image", imageFile); // Add the image to the form data
+      const response = await axios.post("https://jd4i7vga437hv4bzrjm6rqanui0vzbir.lambda-url.us-east-1.on.aws/api/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      //console.log(response.data);
+      return response.data.fileUrl; // Assuming the API returns the media URL
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      throw new Error("Failed to upload image.");
+    }
+  };
+
+  const uploadCover = async (url) => {
+    try {
+      const response = await axios.post("https://jd4i7vga437hv4bzrjm6rqanui0vzbir.lambda-url.us-east-1.on.aws/api/cover", { url });
+      return response.data.cid; // Assuming the API returns cover ID (cid)
+    } catch (error) {
+      console.error("Error uploading cover:", error);
+      throw new Error("Failed to upload cover.");
+    }
+  };
+
+
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const validationResult = validateResources(formData.resources);
+    if (validationResult !== true) {
+      setDialogMessage(validationResult); // Show validation error in the dialog
+      setDialogOpen(true);
+      return;
+    }
+    if (!validateCover()) {
+      return;
+    }
+    let coverId = formData.cid;
+    console.log("previous cid", coverId)
+
+    if (coverOption === "customized" && customImage) {
+      try {
+        // Step 1: Upload the image and get the URL
+        const imageUrl = await uploadImage(customImage);
+        //console.log("image upload success", imageUrl)
+
+        // Step 2: Upload the URL to '/cover' and get the cover ID (cid)
+        coverId = await uploadCover(imageUrl);
+        //console.log("media res upload success", coverId)
+      } catch (error) {
+        setDialogMessage("Error occurred while processing the cover. Please try again.");
+        setDialogOpen(true);
+        return;
+      }
+    }
 
     const submissionData = {
       ...formData,
       uid: userId,
-      cid: formData.cid ? parseInt(formData.cid, 10) : 2, // Set default value for cid if empty
+      cid: coverId,
       resources: JSON.parse(formData.resources || "[]"), // Parse resources as JSON
     };
 
@@ -167,16 +275,41 @@ const EditDataProjectForm = () => {
                 onChange={handleChange}
               />
             </Grid>
+
             <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Cover Image Id"
-                name="cid"
-                type="number"
-                value={formData.cid}
-                onChange={handleChange}
-              />
+              <Typography variant="h6">Select Project Cover Option</Typography>
+              <RadioGroup
+                name="coverOption"
+                value={coverOption}
+                onChange={handleCoverChange}
+              >
+                <FormControlLabel
+                  value="default"
+                  control={<Radio />}
+                  label="Use Current Cover"
+                />
+                <FormControlLabel
+                  value="customized"
+                  control={<Radio />}
+                  label="Upload New Cover"
+                />
+              </RadioGroup>
             </Grid>
+
+            {/* Conditionally show upload field if "customized" is selected */}
+            {coverOption === "customized" && (
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  type="file"
+                  onChange={handleCustomImageChange}
+                  inputProps={{
+                    accept: "image/*", // Accept only image files
+                  }}
+                />
+              </Grid>
+            )}
+
             <Grid item xs={12}>
               <TextField
                 fullWidth
