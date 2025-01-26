@@ -124,7 +124,7 @@ Search and filter features are available in all project view. Search supports se
 Empty Search keywords or Empty filter won't do filtering. If multiple tags are selected, only projects match all selected tags will be shown.
 
 
-```
+
 <!-- TechStack -->
 
 ## TechStack
