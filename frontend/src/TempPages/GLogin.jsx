@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {GoogleOAuthProvider, GoogleLogin} from '@react-oauth/google';
-import {GoogleIcon, FacebookIcon} from './components/CustomIcons';
+import {GoogleIcon, FacebookIcon} from '../components/CustomIcons';
 import Button from '@mui/material/Button';
 import Cookies from 'js-cookie';
 

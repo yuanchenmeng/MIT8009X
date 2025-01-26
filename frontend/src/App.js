@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import GLogin from "./GLogin";
+import GLogin from "./TempPages/GLogin";
 import Secure from "./Secure";
 import Home from "./Home";
 import Test from "./Test";
@@ -7,11 +7,11 @@ import Signup from "./Signup";
 import Login from "./Login";
 import Gallery from "./Gallary";
 import ProjectDetail from "./ProjectDetail";
-import Manage from "./ProMan";
-import ProCre from "./NewPro";
-import EditPro from "./EditPro";
-import TL from "./TLPage";
-import TS from "./TSPage";
+import Manage from "./Manage";
+import ProCre from "./ProjectNew";
+import EditPro from "./ProjectEdit";
+import TL from "./TempPages/TLPage";
+import TS from "./TempPages/TSPage";
 import "./App.css";
 
 function App() {
