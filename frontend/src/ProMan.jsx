@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
 import MyHeader from "./components/ProjectHeader";
-import { Fab } from '@mui/material';
+import {Card, CardContent, CardMedia, Fab, Grid, Typography} from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import Divider from "@mui/material/Divider";
 import { useNavigate } from 'react-router-dom';
@@ -19,6 +19,11 @@ function Gallery() {
   const handleClick = () => {
     navigate('/project/new')
   };
+
+  const handleImageClick = (index) => {
+    const pid = data[index].pid
+    navigate(`/project/${pid}`);
+  }
 
   const findUrls = async (cid) => {
     try {
@@ -98,6 +103,75 @@ function Gallery() {
       <div style={{ height: "100%", width: "85%",  margin: "auto "}}>
         <div style = {{marginBottom: "15px"}} className="gallery-container3">My Projects</div>
         <Divider ></Divider>
+        <Grid
+          container
+          spacing={3}
+          sx={{
+            padding: "20px",
+          }}
+        >
+          {data ? (
+            data.map((project, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <Card
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    boxShadow: 3,
+                    borderRadius: "8px",
+                    backgroundColor: "#fff",
+                  }}
+                  onClick={() => handleImageClick(index)}
+                >
+                  <CardMedia
+                    component="img"
+                    src={projectUrls[project.cid]}
+                    alt={`Cover for project ${index + 1}`}
+                    sx={{
+                      width: "100%",
+                      height: "200px", // Fixed height for all images
+                      objectFit: "fill", // Distort to fill the space
+                      borderTopLeftRadius: "8px",
+                      borderTopRightRadius: "8px",
+                    }}
+                    loading="lazy"
+                  />
+                  <CardContent sx={{ padding: "10px" }}>
+                    <Typography variant="h6">{`Project ${index + 1}`}</Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      <strong>Project Title:</strong> {project.keywords}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))
+          ) : (
+            <Typography variant="h6" color="textSecondary">
+              No data available
+            </Typography>
+          )}
+        </Grid>
+
+      </div>
+      <div style={{
+        marginBottom: "50px",
+        marginRight: "50px",
+        textAlign: "right"
+      }}>
+        <Fab color="primary" aria-label="add" size = "large">
+          <AddIcon onClick={handleClick}/>
+        </Fab>
+      </div>
+    </div>
+  );
+}
+
+export default Gallery;
+
+/*
+<div style={{ height: "100%", width: "85%",  margin: "auto "}}>
+        <div style = {{marginBottom: "15px"}} className="gallery-container3">My Projects</div>
+        <Divider ></Divider>
         <div
           style={{
             display: "grid",
@@ -124,51 +198,39 @@ function Gallery() {
                   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
                   backgroundColor: "#fff",
                 }}
+                onClick={() => handleImageClick(index)}
               >
                 <p><strong>Project {index + 1}:</strong> {project.keywords}</p>
-                {/* Display the image if URL is available */}
-                {projectUrls[project.cid] ? (
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "200px", // Fixed height for all images
-                      overflow: "hidden", // Hide overflow content
-                      borderRadius: "8px", // Match card border radius
-                    }}
-                  >
-                    <img
-                      src={projectUrls[project.cid]}
-                      alt={`Cover for project ${index + 1}`}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover", // Ensures uniform aspect ratio by cropping
-                      }}
-                      loading="lazy"
-                    />
-                  </div>
-                ) : (
-                  <p>Loading cover image...</p>
-                )}
-              </div>
-            ))
-          ) : (
-            <p>No data available</p>
-          )}
-        </div>
 
-      </div>
-      <div style={{
-        marginBottom: "50px",
-        marginRight: "50px",
-        textAlign: "right"
-      }}>
-        <Fab color="primary" aria-label="add" size = "large">
-          <AddIcon onClick={handleClick}/>
-        </Fab>
-      </div>
-    </div>
-  );
-}
+{projectUrls[project.cid] ? (
+  <div
+    style={{
+      width: "100%",
+      height: "200px", // Fixed height for all images
+      overflow: "hidden", // Hide overflow content
+      borderRadius: "8px", // Match card border radius
+    }}
+  >
+    <img
+      src={projectUrls[project.cid]}
+      alt={`Cover for project ${index + 1}`}
+      style={{
+        width: "100%",
+        height: "100%",
+        objectFit: "cover", // Ensures uniform aspect ratio by cropping
+      }}
+      loading="lazy"
+    />
+  </div>
+) : (
+  <p>Loading cover image...</p>
+)}
+</div>
+))
+) : (
+  <p>No data available</p>
+)}
+</div>
 
-export default Gallery;
+</div>
+*/

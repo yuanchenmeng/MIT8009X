@@ -2,18 +2,24 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
 import MyHeader from "./components/ProjectHeader";
+import { TextField, Autocomplete, CircularProgress,Grid, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 
 function Gallery() {
   // State to store fetched data
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [tags, setTags] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [projectUrls, setProjectUrls] = useState({});
   const navigate = useNavigate();
 
   const handleImageClick = (index) => {
-    const pid = data[index].pid
+    const pid = filteredData[index].pid
     navigate(`/project/${pid}`);
   }
 
@@ -44,8 +50,24 @@ function Gallery() {
           url: "https://jd4i7vga437hv4bzrjm6rqanui0vzbir.lambda-url.us-east-1.on.aws/api/projects",
         });
         console.log(response.data)
-        setData(response.data["projects"]); // Set the response data to state
-        setLoading(false); // Set loading to false after data is fetched
+        const projects = response.data["projects"];
+        setData(projects);
+        setFilteredData(projects);
+
+        // Extract unique tags from projects
+        const uniqueTags = Array.from(
+          new Set(
+            projects.flatMap((project) =>
+              project.tags
+                .split(",")
+                .map((tag) => tag.trim()) // Trim and normalize tags
+            )
+          )
+        );
+        setTags(uniqueTags);
+        console.log(uniqueTags)
+
+        setLoading(false);
       } catch (error) {
         setError('Error fetching data');
         setLoading(false);
@@ -58,7 +80,7 @@ function Gallery() {
   useEffect(() => {
     const fetchUrls = async () => {
       const urls = {};
-      for (const project of data) {
+      for (const project of filteredData) {
         if (project.cid) {
           const url = await findUrls(project.cid);
           urls[project.cid] = url; // Map CID to its URL
@@ -67,84 +89,122 @@ function Gallery() {
       setProjectUrls(urls); // Update state with all URLs
     };
 
-    if (data) {
+    if (filteredData) {
       fetchUrls();
     }
-  }, [data]);
+  }, [filteredData]);
+
+
+  // Filter logic
+  useEffect(() => {
+    const lowercasedSearchTerm = searchTerm.toLowerCase();
+
+    const filtered = data.filter((project) => {
+      // Match search term in text or tags
+      const matchesSearch =
+        lowercasedSearchTerm === "" ||
+        project.keywords.toLowerCase().includes(lowercasedSearchTerm) ||
+        project.text.toLowerCase().includes(lowercasedSearchTerm) ||
+        project.tags.toLowerCase().includes(lowercasedSearchTerm);
+
+      // Match selected tags
+      const matchesTags =
+        selectedTags.length === 0 ||
+        selectedTags.every((tag) => project.tags.includes(tag));
+
+      return matchesSearch && matchesTags;
+    });
+
+    setFilteredData(filtered);
+    console.log("FILTER, ", filtered)
+  }, [searchTerm, selectedTags, data]);
+
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <CircularProgress />;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <Typography color="error">{error}</Typography>;
   }
 
   return (
     <div>
       <MyHeader></MyHeader>
       <div style={{ height: "100%", width: "85%",  margin: "auto "}}>
+        <div style={{width: "70%", marginTop: "50px", marginBottom: "20px", display: "flex", gap: "35px", }}>
+
+
+          <TextField
+            label="Search Projects"
+            variant="outlined"
+            fullWidth
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+
+          <Autocomplete
+            multiple
+            options={tags}
+            getOptionLabel={(option) => option}
+            value={selectedTags}
+            onChange={(e, newValue) => setSelectedTags(newValue)}
+            renderInput={(params) => (
+              <TextField {...params} variant="outlined" label="Filter by Tags" />
+            )}
+            fullWidth
+          />
+        </div>
         <div className="gallery-container1">2025</div>
         <div className="gallery-container2">All Projects</div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", // Responsive grid
-            gap: "20px", // Spacing between cards
-            padding: "20px", // Add padding around the grid
+        <Grid
+          container
+          spacing={3}
+          sx={{
+            padding: "20px",
           }}
         >
-          {data ? (
-            data.map((project, index) => (
-              <div key={index} style={{
-                  display: "flex",
-                  border: "1px solid #ccc",
-                  borderRadius: "8px",
-                  padding: "10px",
-                  flexDirection: "column",
-                  alignItems: "center", // Center content within the card
-                  maxWidth: "400px", // Restrict the card width
-                  margin: "20px auto", // Center the card horizontally
-                  marginBottom: "20px",
-                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                  backgroundColor: "#fff",
-                }} onClick={() => handleImageClick(index)}
-              >
-                <h3>Project {index + 1}</h3>
-                <p><strong>Project Title:</strong> {project.keywords}</p>
-                {/* Display the image if URL is available */}
-                {projectUrls[project.cid] ? (
-                  <div
-                    style={{
+          {filteredData ? (
+            filteredData.map((project, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <Card
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    boxShadow: 3,
+                    borderRadius: "8px",
+                    backgroundColor: "#fff",
+                  }}
+                  onClick={() => handleImageClick(index)}
+                >
+                  <CardMedia
+                    component="img"
+                    src={projectUrls[project.cid]}
+                    alt={`Cover for project ${index + 1}`}
+                    sx={{
                       width: "100%",
                       height: "200px", // Fixed height for all images
-                      overflow: "hidden", // Hide overflow content
-                      borderRadius: "8px", // Match card border radius
+                      objectFit: "fill", // Distort to fill the space
+                      borderTopLeftRadius: "8px",
+                      borderTopRightRadius: "8px",
                     }}
-
-                  >
-                    <img
-                      src={projectUrls[project.cid]}
-                      alt={`Cover for project ${index + 1}`}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover", // Ensures uniform aspect ratio by cropping
-                      }}
-                      loading="lazy"
-                    />
-                  </div>
-                ) : (
-                  <p>Loading cover image...</p>
-                )}
-              </div>
+                    loading="lazy"
+                  />
+                  <CardContent sx={{ padding: "10px" }}>
+                    <Typography variant="h6">{`Project ${index + 1}`}</Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      <strong>Project Title:</strong> {project.keywords}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
             ))
           ) : (
-            <p>No data available</p>
+            <Typography variant="h6" color="textSecondary">
+              No data available
+            </Typography>
           )}
-        </div>
-
-
+        </Grid>
 
       </div>
     </div>

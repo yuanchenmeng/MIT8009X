@@ -4,6 +4,7 @@ import { Fab } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { Chip, Box, Typography, List, ListItem } from "@mui/material";
 import axios from "axios";
+import MyHeader from "./components/ProjectHeader";
 
 export default function ProjectDetail() {
   const { pid } = useParams(); // Capture the dynamic :pid from the URL
@@ -85,6 +86,7 @@ export default function ProjectDetail() {
 
   return (
     <div>
+      <MyHeader></MyHeader>
       <div style={{ padding: "20px" , width: "60%", margin: "auto"}}>
         <Typography variant="h4" gutterBottom>
           Project Title: {project.keywords}
@@ -107,7 +109,7 @@ export default function ProjectDetail() {
           <strong>Team Members:</strong>
         </Typography>
         <Typography variant="body1" paragraph>
-          <p>{project.text}</p>
+          {project.text}
         </Typography>
         <Typography variant="h5" paragraph>
           <strong style={{marginTop: "10px", marginBottom: "10px"}}>Tags:</strong>

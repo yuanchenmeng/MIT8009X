@@ -43,7 +43,7 @@ export default function MyHeader() {
             color: "#ffffff",
           }}
         >
-          Projects Demos
+          Demos
         </a>
         {/* Conditionally render the "Project Management" link */}
         {userId && (
@@ -55,7 +55,7 @@ export default function MyHeader() {
               color: "#ffffff",
             }}
           >
-            Project Management
+            Management
           </a>
         )}
       </nav>
