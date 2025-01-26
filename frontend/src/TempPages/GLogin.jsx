@@ -8,6 +8,7 @@ const GLogin = () => {
   const handleLoginSuccess = (response) => {
     const token = response.credential; // the token returned after successful login
     Cookies.set('access_token', token, {expires: 7}); // save token in a cookie
+    alert("Login Success, but Google currently does not support creating new accounts. Please try another method");
     //console.log('Logged in with Google:', token);
   };
 

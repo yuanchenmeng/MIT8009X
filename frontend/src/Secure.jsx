@@ -34,7 +34,7 @@ export default function Secure() {
 
     if (!accessToken) {
       console.log("WARNING, not token, redirects");
-      navigate("/");
+      navigate('/');
     }
 
     getUserDetails(accessToken);
